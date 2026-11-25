@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kadr Akademiya — 1 oyda daromadli kasbga chiqing</title>
+<meta name="description" content="Kadr Akademiya: AI kursi (oflayn va onlayn, 1-dekabrdan), «Mobilografiya: noldan daromadgacha» (onlayn). Tez orada: Pro videografiya va SMM.">
+<meta property="og:title" content="Kadr Akademiya — AI bilan media kasb">
+<meta property="og:description" content="AI kursi oflayn va onlayn, mobilografiya onlayn. Toshkent. 1-dekabrdan.">
+<meta name="theme-color" content="#07060d">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07060d; --bg2:#0d0b18; --card:rgba(255,255,255,.035); --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --tx:#eeeaf7; --tx2:#a9a3bd; --mute:#6f6987;
+  --v1:#8b5cf6; --v2:#c4b5fd; --v3:#6d28d9; --pink:#f0abfc; --cyan:#7dd3fc;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font:400 16px/1.6 "Inter Tight",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--v1);color:#fff}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--v2)}
+.grad{background:linear-gradient(100deg,#fff 0%,var(--v2) 30%,var(--pink) 55%,var(--cyan) 75%,#fff 100%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 9s linear infinite}
+@keyframes shine{to{background-position:-250% 0}}
+
+/* fon: nozik to'r + yuqoridagi nur */
+.bg-grid{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:72px 72px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 75%);opacity:.5}
+.bg-glow{position:fixed;left:50%;top:-30vh;width:120vw;height:90vh;transform:translateX(-50%);z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(139,92,246,.28),rgba(109,40,217,.10) 55%,transparent)}
+
+/* nav */
+nav{position:fixed;top:14px;left:0;right:0;z-index:40}
+nav .bar{max-width:1160px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;letter-spacing:-.01em}
+.logo img{height:58px;width:auto;filter:drop-shadow(0 0 14px rgba(139,92,246,.55))}
+.logo i{width:28px;height:28px;border-radius:9px;background:radial-gradient(circle at 35% 30%,#fff,var(--v2) 25%,var(--v1) 55%,var(--v3));
+  box-shadow:0 0 18px rgba(139,92,246,.7),inset 0 0 0 1px rgba(255,255,255,.3)}
+.pill{display:flex;gap:4px;padding:5px;border:1px solid var(--line);border-radius:999px;background:rgba(13,11,24,.6);backdrop-filter:blur(14px)}
+.pill a{font-size:14px;color:var(--tx2);padding:7px 14px;border-radius:999px;transition:color .2s,background .2s}
+.pill a:hover{color:#fff;background:rgba(255,255,255,.06)}
+@media(max-width:760px){.pill{display:none}}
+
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;cursor:pointer;
+  font:600 15px/1 "Inter Tight";color:#fff;padding:15px 24px;border-radius:12px;
+  background:linear-gradient(180deg,#9d74ff,#6d28d9);box-shadow:0 0 0 1px rgba(196,181,253,.45) inset,0 10px 40px -8px rgba(139,92,246,.8);
+  transition:transform .2s,box-shadow .2s,filter .2s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1);box-shadow:0 0 0 1px rgba(255,255,255,.6) inset,0 14px 50px -6px rgba(139,92,246,1)}
+.btn.sm{padding:11px 16px;font-size:14px;border-radius:10px}
+.btn.ghost{background:rgba(255,255,255,.04);box-shadow:0 0 0 1px var(--line2) inset}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+.btn[disabled]{opacity:.6;cursor:wait;transform:none}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 0 60px;overflow:hidden}
+#orb{position:absolute;left:50%;top:50%;width:min(1100px,150vw);height:min(1100px,150vw);transform:translate(-50%,-46%);z-index:0;opacity:0;transition:opacity 1.6s ease}
+#orb.on{opacity:1}
+.hero .in{position:relative;z-index:2}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border:1px solid var(--line2);border-radius:999px;
+  background:rgba(13,11,24,.55);backdrop-filter:blur(10px);font-size:13px;color:var(--tx2)}
+.badge b{font:500 11px "JetBrains Mono";letter-spacing:.08em;color:#fff;background:linear-gradient(90deg,var(--v1),#c026d3);padding:4px 8px;border-radius:999px}
+.hero h1{font-weight:500;font-size:clamp(46px,8.6vw,118px);line-height:.95;letter-spacing:-.045em;margin:26px 0 22px;text-shadow:0 0 60px rgba(7,6,13,.9)}
+.hero h1 .serif{font-size:1.08em;letter-spacing:-.02em}
+.hero .lead{font-size:clamp(17px,2vw,20px);color:var(--tx2);max-width:640px;margin:0 auto 34px;text-shadow:0 0 30px var(--bg)}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:70px auto 0;max-width:860px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--line);backdrop-filter:blur(8px)}
+.facts div{background:rgba(10,9,20,.72);padding:20px 14px}
+.facts b{display:block;font-weight:500;font-size:28px;letter-spacing:-.03em}
+.facts span{font-size:13px;color:var(--mute)}
+@media(max-width:720px){.facts{grid-template-columns:1fr 1fr}}
+.scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;width:22px;height:36px;border:1px solid var(--line2);border-radius:12px}
+.scroll::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--v2);animation:sc 1.8s ease-in-out infinite}
+@keyframes sc{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* sections */
+section{position:relative;padding:120px 0}
+.head{text-align:center;max-width:760px;margin:0 auto 56px}
+h2{font-weight:500;font-size:clamp(38px,5.6vw,68px);line-height:1;letter-spacing:-.04em;margin-top:16px}
+h2 .serif{font-size:1.1em}
+.head p{color:var(--tx2);font-size:18px;margin-top:18px}
+
+/* kartalar: kursor ortidan yuradigan nur */
+.card{position:relative;border:1px solid var(--line);border-radius:20px;background:var(--card);overflow:hidden;isolation:isolate}
+.card::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .3s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(139,92,246,.18),transparent 60%)}
+.card:hover::before{opacity:1}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(196,181,253,.7),transparent 60%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.card:hover::after{opacity:1}
+
+.mods{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.mod{padding:30px 28px 32px;grid-column:span 2;min-height:230px;display:flex;flex-direction:column}
+.mod.big{grid-column:span 3;min-height:270px}
+.mod .n{font:500 12px "JetBrains Mono";color:var(--mute);letter-spacing:.1em}
+.mod .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin:18px 0 auto;border:1px solid var(--line2);
+  background:linear-gradient(180deg,rgba(139,92,246,.25),rgba(139,92,246,.04));color:var(--v2)}
+.mod h3{font-weight:500;font-size:24px;letter-spacing:-.02em;margin:22px 0 8px}
+.mod p{color:var(--tx2);font-size:15px}
+.mod.ai{background:linear-gradient(160deg,rgba(139,92,246,.22),rgba(192,38,211,.08) 60%,rgba(255,255,255,.02))}
+.mod.ai .ic{background:linear-gradient(135deg,var(--v1),#c026d3);color:#fff;border:0;box-shadow:0 0 30px rgba(139,92,246,.6)}
+@media(max-width:900px){.mods{grid-template-columns:1fr 1fr}.mod,.mod.big{grid-column:span 1}}
+@media(max-width:560px){.mods{grid-template-columns:1fr}.logo img{height:46px}}
+.prog{margin-top:56px;padding:40px 36px}
+.prog-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:28px}
+.prog-h h3{font-weight:500;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.025em;line-height:1.05}
+.prog-h .dur{font:500 13px "JetBrains Mono";letter-spacing:.1em;text-transform:uppercase;color:#fff;padding:9px 14px;border-radius:999px;background:linear-gradient(135deg,var(--v1),#c026d3)}
+.plist{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;counter-reset:l}
+.plist li{counter-increment:l;display:flex;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);font-size:15px;line-height:1.35}
+.plist li::before{content:counter(l,decimal-leading-zero);font:500 12px "JetBrains Mono";color:var(--v2);padding-top:2px}
+.plist li b{font-weight:500;display:block}.plist li small{color:var(--tx2);font-size:13px}
+.bonus{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.bonus .mono{margin-right:6px}
+.bonus span.c{padding:7px 12px;border-radius:999px;border:1px dashed var(--line2);font-size:14px;color:var(--tx2)}
+.pnote{margin-top:22px;color:var(--tx2);font-size:14.5px}
+@media(max-width:900px){.plist{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.prog{padding:28px 20px}.plist{grid-template-columns:1fr}}
+
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.why .card{padding:28px 24px}
+.why b{font:500 12px "JetBrains Mono";color:var(--v2);letter-spacing:.1em}
+.why h3{font-weight:500;font-size:20px;letter-spacing:-.02em;margin:40px 0 8px}
+.why p{color:var(--tx2);font-size:15px}
+@media(max-width:900px){.why{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.why{grid-template-columns:1fr}}
+
+/* ustoz */
+.teacher{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+.teacher .q{padding:0;display:grid;grid-template-columns:minmax(200px,.9fr) 1.1fr;overflow:hidden}
+.teacher .ph{position:relative;min-height:100%;background:#0b0a12}
+.teacher .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.teacher .ph:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,rgba(12,11,20,.85)),linear-gradient(0deg,rgba(12,11,20,.55),transparent 35%)}
+.teacher .qt{padding:44px 40px;display:flex;flex-direction:column;justify-content:center}
+.quote{font-family:"Instrument Serif";font-style:italic;font-size:clamp(30px,3.8vw,46px);line-height:1.1;letter-spacing:-.01em;margin:22px 0 28px}
+.who{display:flex;align-items:center;gap:14px;color:var(--tx2);font-size:15px}
+.who i{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 16px "Inter Tight";font-style:normal;color:#fff;
+  background:linear-gradient(135deg,var(--v1),#c026d3)}
+.who b{color:#fff;font-weight:600;display:block}
+.stats{display:grid;gap:16px}
+.stats .card{padding:26px 28px;display:flex;align-items:baseline;gap:18px}
+.stats strong{font-weight:500;font-size:44px;letter-spacing:-.04em;min-width:120px}
+.stats span{color:var(--tx2);font-size:15px}
+@media(max-width:860px){.teacher{grid-template-columns:1fr}.teacher .q{grid-template-columns:1fr}.teacher .ph{min-height:0;aspect-ratio:1/1}.teacher .ph:after{background:linear-gradient(0deg,rgba(12,11,20,.9),transparent 45%)}.teacher .qt{padding:8px 26px 32px}}
+
+/* manzil */
+.loc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.loc .card{padding:36px 32px}
+.loc h3{font-weight:500;font-size:28px;letter-spacing:-.03em;margin:14px 0 12px}
+.loc p{color:var(--tx2);font-size:17px}
+.rules{list-style:none;margin-top:14px}
+.rules li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);color:var(--tx2)}
+.rules li:last-child{border:0}
+.rules li b{color:#fff;font-weight:500;text-align:right}
+@media(max-width:760px){.loc{grid-template-columns:1fr}}
+
+/* ariza */
+#ariza{padding-bottom:140px;overflow-x:hidden;overflow-x:clip}
+#ariza::before{content:"";position:absolute;left:50%;top:30%;width:900px;height:600px;transform:translateX(-50%);z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(139,92,246,.22),transparent)}
+.panel{max-width:620px;margin:0 auto;padding:44px 40px;border-radius:26px;border:1px solid var(--line2);
+  background:linear-gradient(180deg,rgba(26,20,48,.75),rgba(12,10,22,.85));backdrop-filter:blur(20px);
+  box-shadow:0 40px 120px -30px rgba(109,40,217,.55),inset 0 1px 0 rgba(255,255,255,.08)}
+@media(max-width:560px){.panel{padding:30px 20px;border-radius:20px}}
+.panel h2{font-size:clamp(36px,5vw,52px);text-align:center}
+.panel > p,.formbox > p{color:var(--tx2);text-align:center;margin:14px 0 30px;font-size:17px}
+.field{display:block;margin-bottom:14px}
+.field span{display:block;font:500 11px "JetBrains Mono";letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.field input,.field select{width:100%;font:500 17px "Inter Tight";padding:16px 18px;border-radius:12px;border:1px solid var(--line2);
+  background:rgba(255,255,255,.03);color:#fff;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;appearance:none}
+.field select{background-image:linear-gradient(45deg,transparent 50%,var(--tx2) 50%),linear-gradient(135deg,var(--tx2) 50%,transparent 50%);
+  background-position:calc(100% - 22px) 52%,calc(100% - 16px) 52%;background-size:6px 6px;background-repeat:no-repeat}
+.field select option{background:#14112a;color:#fff}
+.field input::placeholder{color:#555070}
+.field input:focus,.field select:focus{border-color:var(--v1);background:rgba(139,92,246,.06);box-shadow:0 0 0 4px rgba(139,92,246,.18)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.err{min-height:22px;font-size:14px;color:#fda4af;font-weight:500;margin:2px 0 10px}
+.panel .btn{width:100%;padding:19px;font-size:16px}
+.small{font-size:13px;color:var(--mute);margin-top:14px;text-align:center}
+
+/* rahmat + Madina */
+.thanks{display:none;text-align:center}
+.thanks.on{display:block;animation:rise .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.thanks h3{font-weight:500;font-size:clamp(36px,5vw,52px);letter-spacing:-.04em;line-height:1;margin:16px 0 12px}
+.thanks > p{color:var(--tx2);font-size:17px;margin-bottom:30px}
+.madina{border:1px solid var(--line2);border-radius:22px;padding:30px 26px;background:rgba(255,255,255,.03)}
+.av{position:relative;width:110px;height:110px;margin:0 auto 18px}
+.av .core{position:absolute;inset:18px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff 0,var(--v2) 18%,var(--v1) 45%,#4c1d95 80%);
+  box-shadow:0 0 40px rgba(139,92,246,.8),0 0 90px rgba(192,38,211,.35);animation:breath 4s ease-in-out infinite}
+.av .r{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(196,181,253,.35);opacity:.5}
+.av .r2{inset:8px;border-color:rgba(240,171,252,.25)}
+@keyframes breath{50%{transform:scale(.94);filter:brightness(.9)}}
+.madina.talk .core{animation:talk .5s ease-in-out infinite alternate}
+@keyframes talk{to{transform:scale(1.1);filter:brightness(1.25)}}
+.madina.talk .r{animation:ring 1.2s ease-out infinite}
+.madina.talk .r2{animation-delay:.4s}
+.madina.listen .r{opacity:.9;border-color:var(--cyan)}
+@keyframes ring{0%{opacity:.9;transform:scale(.85)}100%{opacity:0;transform:scale(1.5)}}
+.madina h4{font-weight:600;font-size:20px}
+.madina .st{font-size:14px;color:var(--tx2);margin:4px 0 22px;min-height:22px}
+.madina .btn{width:100%;font-size:16px;padding:18px}
+.madina .mE{display:none;background:rgba(255,255,255,.05);box-shadow:0 0 0 1px var(--line2) inset}
+.madina.live .mS{display:none}
+.madina.live .mE{display:flex}
+.madina .note{font-size:13px;color:var(--mute);margin-top:14px}
+
+footer{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(--mute)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+.mcta{position:fixed;left:16px;right:16px;bottom:16px;z-index:30;display:none}
+.mcta .btn{width:100%;padding:18px}
+@media(max-width:720px){.mcta.on{display:block}}
+
+/* ===== Bog'lanish tugmasi + modal ===== */
+.fab{position:fixed;right:18px;bottom:calc(90px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:10px;padding:15px 22px 15px 16px;border:0;border-radius:999px;cursor:pointer;
+  font:600 15px/1 "Inter Tight",system-ui,sans-serif;color:#fff;background:linear-gradient(120deg,var(--v3),var(--v1) 45%,#d946ef);
+  box-shadow:0 10px 34px rgba(139,92,246,.55),0 0 0 1px rgba(255,255,255,.18) inset;animation:fabShake 4.5s ease-in-out infinite}
+.fab::before,.fab::after{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid rgba(196,181,253,.7);animation:fabRing 2.2s ease-out infinite;pointer-events:none}
+.fab::after{animation-delay:1.1s}
+.fab .ic{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.fab .ic svg{width:16px;height:16px}
+.fab .dot{position:absolute;top:2px;right:6px;width:11px;height:11px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px var(--bg)}
+.fab:hover{filter:brightness(1.12)}
+@keyframes fabRing{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.45,1.8);opacity:0}}
+@keyframes fabShake{0%,84%,100%{transform:translate(0) rotate(0)}86%{transform:translate(-3px) rotate(-4deg)}88%{transform:translate(3px) rotate(4deg)}90%{transform:translate(-3px) rotate(-3deg)}92%{transform:translate(3px) rotate(3deg)}94%{transform:translate(-1px) rotate(-1deg)}}
+@media(max-width:720px){.mcta{right:auto;width:calc(100% - 32px - 76px)}.fab{bottom:calc(110px + env(safe-area-inset-bottom,0px));right:16px;padding:0;width:60px;height:60px;justify-content:center}.fab .tx{display:none}.fab .ic{background:none;width:auto;height:auto}.fab .ic svg{width:24px;height:24px}}
+.btn.alt{background:rgba(255,255,255,.06);box-shadow:0 0 0 1px var(--line2) inset}
+.cmod{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(5,4,10,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.cmod.on{display:flex;animation:fadeIn .25s ease}
+@media(min-width:721px){.cmod{align-items:center}}
+.cmod .sheet{position:relative;width:min(460px,100%);background:linear-gradient(180deg,#141027,#0b0916);border:1px solid var(--line2);border-radius:26px 26px 0 0;padding:30px 22px 26px;animation:up .35s cubic-bezier(.2,.8,.2,1)}
+@media(min-width:721px){.cmod .sheet{border-radius:26px;padding:34px 30px 30px}}
+.cmod .x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:var(--tx2);font-size:20px;cursor:pointer}
+.cmod h3{font-weight:600;font-size:24px;letter-spacing:-.01em;margin:8px 0 6px}
+.cmod .sub{color:var(--tx2);font-size:15px;margin-bottom:22px}
+.opt{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:18px;border-radius:18px;border:1px solid var(--line2);background:rgba(255,255,255,.035);color:var(--tx);cursor:pointer;text-decoration:none;margin-bottom:12px;transition:transform .2s,border-color .2s,background .2s;font:inherit}
+.opt:hover{transform:translateY(-2px);border-color:rgba(196,181,253,.5);background:rgba(139,92,246,.08)}
+.opt .oi{flex:none;width:50px;height:50px;border-radius:15px;display:grid;place-items:center}
+.opt .oi svg{width:24px;height:24px}
+.opt.call .oi{background:linear-gradient(135deg,var(--v1),#d946ef);box-shadow:0 6px 20px rgba(139,92,246,.45)}
+.opt.tg .oi{background:linear-gradient(135deg,#2aabee,#229ed9);box-shadow:0 6px 20px rgba(42,171,238,.35)}
+.opt b{display:block;font-weight:600;font-size:17px}
+.opt small{display:block;color:var(--tx2);font-size:13.5px;margin-top:2px}
+.opt .arr{margin-left:auto;color:var(--mute);font-size:20px}
+.cmod .madina{margin-top:6px}
+.opt.ph .oi{background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 6px 20px rgba(34,197,94,.35)}
+.cform .field input{padding:14px 16px;font-size:16px}
+.cform .btn{width:100%;padding:17px;font-size:16px}
+.cform .back,.cmod .back{background:none;border:0;color:var(--tx2);font:500 14px "Inter Tight";cursor:pointer;padding:6px 0;margin-bottom:6px}
+.cdone{text-align:center;padding:10px 0 4px}
+.cdone .ok{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 0 40px rgba(34,197,94,.45)}
+.cdone h3{margin-top:0}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+
+/* VSL */
+.hero{align-items:flex-start;padding-top:130px}
+.hero h1{font-size:clamp(42px,7vw,96px);margin:22px 0 14px}
+.hero .lead{margin-bottom:30px}
+.vsl{position:relative;width:min(860px,92vw);margin:0 auto 30px;aspect-ratio:16/9;border-radius:22px;overflow:hidden;
+  border:1px solid var(--line2);background:radial-gradient(ellipse at 50% 40%,rgba(139,92,246,.35),rgba(12,10,22,.92) 70%);
+  box-shadow:0 40px 140px -30px rgba(109,40,217,.7),inset 0 1px 0 rgba(255,255,255,.1);backdrop-filter:blur(6px)}
+.vsl::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(130deg,rgba(196,181,253,.8),transparent 35%,transparent 65%,rgba(240,171,252,.6));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.vsl video,.vsl iframe,.vsl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.vsl-play{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  border:0;background:transparent;cursor:pointer;color:#fff;font-family:inherit}
+.pl{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;padding-left:5px;
+  background:linear-gradient(180deg,#9d74ff,#6d28d9);box-shadow:0 0 0 10px rgba(139,92,246,.18),0 0 60px rgba(139,92,246,.9);
+  animation:pulse 2.4s ease-in-out infinite;transition:transform .25s}
+.vsl-play:hover .pl{transform:scale(1.08)}
+@keyframes pulse{50%{box-shadow:0 0 0 22px rgba(139,92,246,0),0 0 80px rgba(139,92,246,1)}}
+.vsl-cap b{display:block;font-size:18px;font-weight:600}
+.vsl-cap small{color:var(--tx2);font-size:13px}
+.vsl.playing .vsl-play{display:none}
+.vsl>img{filter:brightness(.62)}.vsl video{object-fit:contain;background:#000;z-index:3}.vsl iframe{z-index:3;background:#000}
+@media(max-width:560px){.vsl{border-radius:16px}.pl{width:68px;height:68px}}
+
+/* qisqa dastur */
+.mods{grid-template-columns:repeat(4,1fr)}
+.mod{position:relative}
+.mod .tag{position:absolute;top:26px;right:22px;font:500 11px "JetBrains Mono";letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:99px;border:1px solid var(--line2);color:var(--tx2)}
+.mod .tag.on{color:#fff;border-color:rgba(139,92,246,.6);background:rgba(139,92,246,.18)}
+.mod.soon .ic,.mod.soon h3,.mod.soon p{opacity:.55}
+.mod,.mod.big{grid-column:auto;min-height:0;padding:26px 22px}
+.mod h3{margin:34px 0 6px;font-size:21px}
+.mod p{font-size:14px}
+@media(max-width:900px){.mods{grid-template-columns:1fr 1fr}}
+.mod .mm{margin-top:14px;font:500 12px "JetBrains Mono";color:var(--tx2);letter-spacing:.02em}
+.mod .mcta2{display:inline-block;margin-top:14px;font-weight:600;font-size:14px;color:#c4b5fd;text-decoration:none}.mod .mcta2:hover{color:#fff}
+.mod.soon .mcta2{color:var(--tx2)}
+
+
+/* otzivlar */
+.otz{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,300px));justify-content:center;gap:20px}
+.ot{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;border:1px solid var(--line2);cursor:pointer;
+  background:linear-gradient(180deg,rgba(139,92,246,.18),rgba(12,10,22,.95))}
+.ot video,.ot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ot .pl{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;animation:none;box-shadow:0 0 40px rgba(139,92,246,.7)}
+.ot .who2{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 16px;text-align:left;background:linear-gradient(transparent,rgba(7,6,13,.9))}
+.ot .who2 b{display:block;font-weight:600;font-size:15px}
+.ot .who2 span{font-size:13px;color:var(--tx2)}
+.ot.playing .pl,.ot.playing .who2{display:none}
+@media(max-width:560px){.otz{grid-template-columns:repeat(2,72%);justify-content:start;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.ot{scroll-snap-align:start}}
+/* lavhalar */
+#lavha{padding-top:0}
+.lav{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 70px)/6);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;scrollbar-width:thin}.lav .lv{scroll-snap-align:start}
+.lv{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden;border:1px solid var(--line2);cursor:pointer;background:#0c0a16;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.lv:nth-child(even){transform:translateY(28px)}
+.lv:hover{box-shadow:0 30px 80px -20px rgba(139,92,246,.7)}
+.lv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lv .snd{position:absolute;right:10px;bottom:10px;z-index:2;font:500 10px "JetBrains Mono";letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 9px;border-radius:999px;background:rgba(7,6,13,.65);border:1px solid var(--line2);backdrop-filter:blur(8px)}
+.lv.full .snd{display:none}
+@media(max-width:900px){.lav{grid-auto-columns:42%;padding-bottom:34px}}
+
+/* modul ikonkalari (ixcham kartalar) */
+.mod .ic{margin:18px 0 0}
+.mod .ic svg{width:22px;height:22px}
+.mod h3{margin-top:22px}
+
+/* kimlar uchun */
+.for{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.for .card{padding:26px 24px;display:flex;flex-direction:column;gap:14px}
+.for .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line2);
+  background:linear-gradient(180deg,rgba(139,92,246,.25),rgba(139,92,246,.04));color:var(--v2)}
+.for .ic svg{width:22px;height:22px}
+.for h3{font-weight:500;font-size:19px;letter-spacing:-.02em}
+.for p{color:var(--tx2);font-size:14.5px;margin-top:-6px}
+@media(max-width:900px){.for{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.for{grid-template-columns:1fr}}
+.why h3{margin-top:30px}
+.why .card:first-child{background:linear-gradient(160deg,rgba(139,92,246,.22),rgba(192,38,211,.08) 60%,rgba(255,255,255,.02))}
+
+/* countdown */
+.cd{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font:500 12px "JetBrains Mono";letter-spacing:.06em;color:#86efac}
+.cd::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:cdp 1.8s infinite}
+@keyframes cdp{70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+/* FAQ */
+#faq{padding-top:90px}
+.faq{max-width:820px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font-weight:500;font-size:19px;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2);color:var(--v2);font-size:20px;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--tx2);font-size:16px;padding:0 4px 22px;max-width:680px}
+
+/* shartlar */
+#shart{padding:40px 0 0}
+.terms{display:grid;grid-template-columns:repeat(4,1fr)}
+.terms div{padding:26px 24px;border-right:1px solid var(--line)}
+.terms div:last-child{border:0}
+.terms span{display:block;font:500 11px "JetBrains Mono";letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.terms b{font-weight:500;font-size:20px;letter-spacing:-.02em}
+@media(max-width:760px){.terms{grid-template-columns:1fr 1fr}.terms div:nth-child(2){border-right:0}.terms div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+section{padding:100px 0}
+
+/* paydo bo'lish animatsiyasi */
+.rv{opacity:0;transform:translateY(28px);filter:blur(6px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1),filter .9s}
+.rv.in{opacity:1;transform:none;filter:none}
+.hero .rv{transition-duration:1.2s}
+.d1{transition-delay:.12s!important}.d2{transition-delay:.24s!important}.d3{transition-delay:.36s!important}.d4{transition-delay:.48s!important}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<nav><div class="bar">
+  <a class="logo" href="#"><img src="logo.png" alt="Kadr Akademiya" width="107" height="58"></a>
+  <div class="pill"><a href="#vsl">Video</a><a href="#dastur">Dastur</a><a href="#nega">Nega biz</a><a href="#otziv">Otzivlar</a><a href="#shart">Shartlar</a><a href="#faq">Savollar</a></div>
+  <a class="btn sm" href="#ariza">Joy band qilish</a>
+</div></nav>
+
+<header class="hero">
+  <canvas id="orb" aria-hidden="true"></canvas>
+  <div class="wrap in">
+    <span class="badge rv"><b>1-DEKABR</b>Sun'iy intellekt kursi · Oflayn va onlayn</span>
+    <h1 class="rv d1"><span class="serif grad">1 oyda</span> daromadli<br>kasbga chiqing</h1>
+    <p class="lead rv d2">Kurs haqida hammasini 1 videoda aytib berdim.</p>
+
+    <div class="vsl rv d3" id="vsl">
+      <button class="vsl-play" id="vslPlay" type="button" aria-label="Videoni ko'rish">
+        <span class="pl"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+        <span class="vsl-cap"><b>Videoni ko'ring</b><small>Dilshod Xamrayev · Kadr Akademiya asoschisi</small></span>
+      </button>
+    </div>
+
+    <div class="cta rv d4">
+      <a class="btn" href="#ariza">Joy band qilish →</a>
+      <button class="btn alt" type="button" data-contact>Bog'lanish</button>
+    </div>
+  </div>
+</header>
+
+<section id="dastur"><div class="wrap">
+  <div class="head rv">
+    <span class="mono">// 4 ta kurs</span>
+    <h2>Nimalarni <span class="serif grad">o'rganasiz</span></h2>
+  </div>
+  <div class="mods">
+    <div class="card mod ai rv"><span class="n">01</span><span class="tag on">Oflayn · Onlayn</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><h3>AI kursi</h3><p>Tahlil, strategiya, ssenariy, AI rasm va video, sayt, target va mijoz topish — 1 oyda to'liq kasb</p><div class="mm">1 oy · 1-dekabrdan · Toshkent yoki onlayn</div><a class="mcta2" href="#ariza" data-pick="AI kursi (oflayn)">Ariza qoldirish →</a></div>
+    <div class="card mod rv d1"><span class="n">02</span><span class="tag on">Onlayn</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span><h3>Mobilografiya: noldan daromadgacha</h3><p>Faqat telefon bilan sifatli video olib, undan pul topishni o'rganasiz</p><div class="mm">Onlayn format</div><a class="mcta2" href="#ariza" data-pick="Mobilografiya: noldan daromadgacha (onlayn)">Ariza qoldirish →</a></div>
+    <div class="card mod soon rv d2"><span class="n">03</span><span class="tag">Tez orada</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg></span><h3>Pro videografiya</h3><p>Kamera bilan professional video olish</p><div class="mm">Ochilish sanasi tez orada</div><a class="mcta2" href="#ariza" data-pick="Pro videografiya (tez orada)">Ochilganda xabar bering →</a></div>
+    <div class="card mod soon rv d3"><span class="n">04</span><span class="tag">Tez orada</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 20l1.1-4.6A8.4 8.4 0 1 1 21 11.5z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span><h3>SMM</h3><p>Sahifa yuritish va kontent strategiya</p><div class="mm">Ochilish sanasi tez orada</div><a class="mcta2" href="#ariza" data-pick="SMM (tez orada)">Ochilganda xabar bering →</a></div>
+  </div>
+  <div class="card prog rv" id="ai-dastur">
+    <div class="prog-h"><div><span class="mono">AI kursi dasturi</span><h3>Noldan birinchi daromadgacha</h3></div><span class="dur">Davomiyligi · 1 oy</span></div>
+    <ol class="plist"><li><span><b>Prompt va AI assistent</b><small>AI bilan to'g'ri gaplashish, o'z yordamchingiz</small></span></li><li><span><b>Mijoz va raqobat tahlili</b><small>Kimga, nima va nega sotiladi</small></span></li><li><span><b>Strategiya va pozitsiyalash</b><small>Sahifani boshqalardan ajratish</small></span></li><li><span><b>Kontent plan va rubrikalar</b><small>Bir oylik reja, raspakovka</small></span></li><li><span><b>Ssenariy</b><small>Million ko'rilgan referenslar usuli</small></span></li><li><span><b>AI rasm, slayd va karusel</b><small>Post va karusellarni AI bilan</small></span></li><li><span><b>AI video va montaj</b><small>Kling, Veo, HeyGen, Higgsfield</small></span></li><li><span><b>Skillar va avtomatlashtirish</b><small>Telegram avtopilot, tayyor agentlar</small></span></li><li><span><b>Sayt yaratish</b><small>Kod bilmasdan sayt va onlayn taklifnoma</small></span></li><li><span><b>Target asoslari</b><small>Reklamani to'g'ri ishga tushirish</small></span></li><li><span><b>Mijoz topish va sotish</b><small>Birinchi buyurtmachini topish</small></span></li><li><span><b>Real mijoz loyihasi</b><small>Kadr Media mijozlarida amaliyot, portfolio</small></span></li></ol>
+    <div class="bonus"><span class="mono">+ Bonus video darslar</span><span class="c">Jarvis — shaxsiy AI yordamchi</span><span class="c">Ikkinchi miya</span><span class="c">YouTube uchun katta video</span><span class="c">Telegramda «quloq» bot</span></div>
+    <p class="pnote">Vositalar: ChatGPT, Gemini, Claude, Kling, Veo, HeyGen, Seedance, Higgsfield. Kurs davomida AI obunalarini Kadr Akademiya to'laydi. Oxirida — 100% tayyor portfolio.</p>
+  </div>
+</div></section>
+
+
+<section id="nega"><div class="wrap">
+  <div class="head rv">
+    <span class="mono">// Nega Kadr Akademiya</span>
+    <h2>Oddiy kurs <span class="serif grad">emas</span></h2>
+  </div>
+  <div class="why">
+    <div class="card rv"><b>01</b><h3>Orqasida real agentlik</h3><p>Kursni Kadr Media ishlab chiqarish agentligi olib boradi. Bozorda nima ishlashini kundalik ishimizdan bilamiz.</p></div>
+    <div class="card rv d1"><b>02</b><h3>Haqiqiy loyihalar</h3><p>Kurator va loyiha rahbari bilan haqiqiy mijoz loyihalarida ishlaysiz.</p></div>
+    <div class="card rv d2"><b>03</b><h3>Portfolio bilan chiqasiz</h3><p>Kurs davomida o'z ishlaringizdan portfolio yig'iladi. Nazariya emas, amaliyot.</p></div>
+    <div class="card rv d3"><b>04</b><h3>Ishga yo'l ochiq</h3><p>Yaxshi o'qigan o'quvchilarni Kadr Media test orqali ishga oladi.</p></div>
+  </div>
+</div></section>
+
+<section id="kimlar" style="padding-top:0"><div class="wrap">
+  <div class="head rv">
+    <span class="mono">// Kimlar uchun</span>
+    <h2>Bu kurs <span class="serif grad">sizga mos</span>, agar…</h2>
+  </div>
+  <div class="for">
+    <div class="card rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4"/></svg></span><h3>Noldan boshlayapsiz</h3><p>Tajriba shart emas, hammasini boshidan o'rgatamiz.</p></div>
+    <div class="card rv d1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span><h3>Ozgina bilasiz</h3><p>Bilimingizni tizimga solib, professional darajaga olib chiqasiz.</p></div>
+    <div class="card rv d2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span><h3>Tadbirkorsiz</h3><p>O'z biznesingiz uchun kontentni o'zingiz qilishni o'rganasiz.</p></div>
+    <div class="card rv d3"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.8 9a3 3 0 0 0-2.8-1.5c-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2A3.2 3.2 0 0 1 9 15M12 6v1.5M12 16.5V18"/></svg></span><h3>Yangi kasb izlayapsiz</h3><p>Talab katta bo'lgan media kasbni egallab, yangi daromad manbaiga ega bo'lasiz.</p></div>
+  </div>
+</div></section>
+
+<section id="otziv"><div class="wrap">
+  <div class="head rv">
+    <span class="mono">// Otzivlar</span>
+    <h2>O'quvchilarimiz <span class="serif grad">gapiradi</span></h2>
+  </div>
+  <div class="otz" id="otz"></div>
+</div></section>
+
+<section id="lavha"><div class="wrap">
+  <div class="head rv">
+    <span class="mono">// Kursdan lavhalar</span>
+    <h2>Darslar <span class="serif grad">qanday o'tadi</span></h2>
+  </div>
+  <div class="lav" id="lav"></div>
+</div></section>
+
+
+<section id="ustoz" style="padding-bottom:0"><div class="wrap">
+  <div class="teacher">
+    <div class="card q rv">
+      <div class="ph"><img src="dilshod.jpg" alt="Dilshod Xamrayev — Kadr Akademiya asoschisi" width="640" height="640" loading="lazy"></div>
+      <div class="qt">
+        <span class="mono">// Ustoz</span>
+        <p class="quote">Darslarning asosiy qismini <span class="grad">o'zim o'taman</span>.</p>
+        <div class="who"><span><b>Dilshod Xamrayev</b>Kadr Akademiya va Kadr Media asoschisi</span></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="card rv d1"><strong class="grad">23</strong><span>yil media sohasida</span></div>
+      <div class="card rv d2"><strong class="grad">4</strong><span>kurs: 2 tasi ochiq, 2 tasi tez orada</span></div>
+      <div class="card rv d3"><strong class="grad">1</strong><span>oy jonli amaliyot</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="shart"><div class="wrap">
+  <div class="terms card rv">
+    <div><span>Narxi</span><b>5 000 000 so'm</b></div>
+    <div><span>Format</span><b>1 oy, oflayn yoki onlayn</b></div>
+    <div><span>Boshlanishi</span><b>1-dekabr</b><span class="cd" id="cd" hidden></span></div>
+    <div><span>Manzil</span><b>Toshkent, Eko bozor yonida</b></div>
+  </div>
+</div></section>
+
+
+<section id="faq"><div class="wrap">
+  <div class="head rv">
+    <span class="mono">// Ko'p so'raladigan savollar</span>
+    <h2>Savollar va <span class="serif grad">javoblar</span></h2>
+  </div>
+  <div class="faq rv">
+    <details><summary>Onlayn o'qish ham bormi?</summary><p>Ha. AI kursi oflayn (Toshkentda) va onlayn formatda bor. «Mobilografiya: noldan daromadgacha» hozircha faqat onlayn. «Pro videografiya» va SMM kurslari tez orada ochiladi.</p></details>
+    <details><summary>Oldin tajribam yo'q. Bo'ladimi?</summary><p>Ha. Kurs noldan boshlaydiganlar uchun ham, ozgina biladiganlar uchun ham mos.</p></details>
+    <details><summary>Kurs qancha davom etadi va qachon boshlanadi?</summary><p>1 oy. 1-dekabrdan boshlanadi.</p></details>
+    <details><summary>Kursdan keyin ishga joylashtirasizlarmi?</summary><p>Kafolat bermaymiz, lekin imkoniyat bor: yaxshi o'qigan o'quvchilarni Kadr Media test orqali ishga oladi.</p></details>
+    <details><summary>To'lov qanday amalga oshiriladi?</summary><p>Narxi 5 000 000 so'm. To'lov tartibi bo'yicha menejerimiz Gulro opa aniq ma'lumot beradi. Raqamingizni qoldiring.</p></details>
+    <details><summary>Manzil qayerda?</summary><p>Toshkent, Mirzo Ulug'bek tumani, Eko bozor yonida. Buyuk Ipak Yo'li metrosidan 4–5 bekat.</p></details>
+  </div>
+</div></section>
+
+<section id="ariza"><div class="wrap">
+  <div class="panel rv">
+    <div class="formbox" id="formBox">
+      <div style="text-align:center"><span class="mono">// Ariza</span></div>
+      <h2 style="margin-top:14px">Joyingizni <span class="serif grad">band qiling</span></h2>
+      <p>Ism va raqamingizni qoldiring. Bepul maslahat beramiz va sizga qaysi kurs mosligini birga tanlaymiz.</p>
+      <form id="f" novalidate>
+        <label class="field"><span>Ismingiz</span><input name="name" autocomplete="name" required minlength="2" placeholder="Masalan, Aziza"></label>
+        <label class="field"><span>Telefon raqam</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+998 90 123 45 67"></label>
+        <label class="field"><span>Qaysi yo'nalish qiziq?</span>
+          <select name="interest">
+            <option value="">Bilmayman, maslahat kerak</option>
+            <option>AI kursi (oflayn)</option><option>AI kursi (onlayn)</option><option>Mobilografiya: noldan daromadgacha (onlayn)</option><option>Pro videografiya (tez orada)</option><option>SMM (tez orada)</option>
+          </select></label>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="err" id="err" role="alert"></div>
+        <button class="btn" id="sb" type="submit">Ariza yuborish</button>
+        <p class="small">Raqamingiz faqat kurs bo'yicha bog'lanish uchun ishlatiladi.</p>
+      </form>
+    </div>
+
+    <div class="thanks" id="thanks">
+      <span class="mono">// Qabul qilindi</span>
+      <h3 id="tTitle">Rahmat!</h3>
+      <p>Arizangiz menejerimizga yetib bordi. Savollaringizni hoziroq AI yordamchimiz Madinadan so'rashingiz mumkin.</p>
+      <div class="madina" id="mBox">
+        <div class="av"><span class="r"></span><span class="r r2"></span><span class="core"></span></div>
+        <h4>Madina</h4>
+        <div class="st">Kadr Akademiya AI yordamchisi · o'zbekcha va ruscha</div>
+        <button class="btn mS" type="button">Madina bilan hoziroq gaplashing</button>
+        <button class="btn mE" type="button">Suhbatni tugatish</button>
+        <p class="note">Brauzer mikrofonga ruxsat so'raydi, "Ruxsat berish"ni bosing. Quloqchin bilan gaplashish qulayroq.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span style="display:flex;align-items:center;gap:14px"><img src="logo.png" alt="Kadr Akademiya" height="44" style="height:44px;width:auto;opacity:.85">© Kadr Akademiya · Kadr Media</span>
+  <span>Toshkent, Mirzo Ulug'bek tumani</span>
+</div></footer>
+
+
+<button class="fab" id="fab" type="button" aria-label="Bog'lanish"><span class="dot"></span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="tx">Bog'lanish</span></button>
+
+<div class="cmod" id="cmod" role="dialog" aria-modal="true" aria-label="Bog'lanish">
+  <div class="sheet">
+    <button class="x" id="cx" type="button" aria-label="Yopish">×</button>
+    <div id="cPick">
+      <span class="mono">// Bog'lanish</span>
+      <h3>Qanday bog'lanamiz?</h3>
+      <p class="sub">Madina savollaringizga hoziroq javob beradi.</p>
+      <button class="opt call" id="oCall" type="button"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg></span><span><b>Zudlik bilan bog'lanish</b><small>Madina hoziroq ovozli gaplashadi</small></span><span class="arr">→</span></button>
+      <a class="opt tg" id="oTg" href="#" target="_blank" rel="noopener"><span class="oi"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5L20.5 3c.9-.3 1.6.2 1.4 1.3z"/></svg></span><span><b>Telegram orqali</b><small>Madina botda yozib ma'lumot beradi</small></span><span class="arr">→</span></a>
+      <button class="opt ph" id="oForm" type="button"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span><b>Raqam qoldirish</b><small>Menejerimiz o'zi qo'ng'iroq qiladi</small></span><span class="arr">→</span></button>
+    </div>
+    <div id="cForm" hidden>
+      <button class="back" type="button" data-back>← Orqaga</button>
+      <div id="cfBox">
+        <h3>Raqamingizni qoldiring</h3>
+        <p class="sub">Menejerimiz Gulro opa sizga qo'ng'iroq qilib, hamma savollarga javob beradi.</p>
+        <form class="cform" id="cf" novalidate>
+          <label class="field"><span>Ismingiz</span><input name="name" autocomplete="name" required minlength="2" placeholder="Masalan, Aziza"></label>
+          <label class="field"><span>Telefon raqam</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+998 90 123 45 67"></label>
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="err" id="cerr" role="alert"></div>
+          <button class="btn" id="csb" type="submit">Qo'ng'iroq kutaman</button>
+          <p class="small">Ish vaqti: 09:00–18:00. Raqamingiz faqat kurs bo'yicha bog'lanish uchun.</p>
+        </form>
+      </div>
+      <div class="cdone" id="cDone" hidden>
+        <div class="ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h3 id="cdT">Rahmat!</h3>
+        <p class="sub">Gulro opa ish vaqtida (09:00–18:00) sizga qo'ng'iroq qiladi.</p>
+      </div>
+    </div>
+    <div id="cCall" hidden>
+      <button class="back" type="button" data-back>← Orqaga</button>
+      <div class="madina" id="mBox2">
+        <div class="av"><span class="r"></span><span class="r r2"></span><span class="core"></span></div>
+        <h4>Madina</h4>
+        <div class="st">Kadr Akademiya AI yordamchisi · o'zbekcha va ruscha</div>
+        <button class="btn mS" type="button">Madina bilan gaplashish</button>
+        <button class="btn mE" type="button">Suhbatni tugatish</button>
+        <p class="note">Brauzer mikrofonga ruxsat so'raydi, "Ruxsat berish"ni bosing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mcta" id="mcta"><a class="btn" href="#ariza">Ariza qoldirish →</a></div>
+
+<script>
+/* ===== AI-shar: aylanuvchi neyron zarrachalar ===== */
+(() => {
+  const cv = document.getElementById("orb"), ctx = cv.getContext("2d");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobile = innerWidth < 720;
+  const N = mobile ? 520 : 900, pts = [], edges = [];
+  const ga = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < N; i++) {
+    const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), t = ga * i;
+    const j = 1 + (Math.random() - .5) * .06;
+    pts.push({x: Math.cos(t) * r * j, y: y * j, z: Math.sin(t) * r * j, s: Math.random()});
+  }
+  // har nuqtani eng yaqin 2 qo'shnisi bilan bog'lash
+  for (let i = 0; i < N; i++) {
+    const a = pts[i], d = [];
+    for (let k = 0; k < N; k++) if (k !== i) {
+      const b = pts[k], q = (a.x-b.x)**2 + (a.y-b.y)**2 + (a.z-b.z)**2;
+      if (q < .02) d.push([q, k]);
+    }
+    d.sort((p, q) => p[0] - q[0]).slice(0, 2).forEach(([, k]) => { if (k > i) edges.push([i, k, Math.random()]); });
+  }
+  let W, H, R, dpr, rx = .35, ry = 0, tx = 0, ty = 0, vis = true;
+  const proj = new Float32Array(N * 3);
+  const size = () => {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    const b = cv.getBoundingClientRect(); W = b.width; H = b.height;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    R = Math.min(W, H) * .34;
+  };
+  size(); addEventListener("resize", size);
+  addEventListener("pointermove", e => { tx = (e.clientY / innerHeight - .5) * .5; ty = (e.clientX / innerWidth - .5) * .8; });
+  new IntersectionObserver(([e]) => { vis = e.isIntersecting; }).observe(cv);
+  let t0 = performance.now();
+  const frame = now => {
+    const dt = Math.min(now - t0, 50) / 1000; t0 = now;
+    if (vis) {
+      ry += dt * .12; rx += (.35 + tx - rx) * .04;
+      const yy = ry + ty, cy = Math.cos(yy), sy = Math.sin(yy), cx = Math.cos(rx), sx = Math.sin(rx);
+      const time = now / 1000;
+      ctx.clearRect(0, 0, W, H);
+      const ox = W / 2, oy = H / 2;
+      // ichki nur
+      const g = ctx.createRadialGradient(ox, oy, 0, ox, oy, R * 1.25);
+      g.addColorStop(0, "rgba(139,92,246,.22)"); g.addColorStop(.6, "rgba(109,40,217,.07)"); g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      for (let i = 0; i < N; i++) {
+        const p = pts[i];
+        const breathe = 1 + Math.sin(time * 1.2 + p.s * 6.28) * .015;
+        let x = p.x * cy - p.z * sy, z = p.x * sy + p.z * cy, y = p.y;
+        const y2 = y * cx - z * sx; z = y * sx + z * cx;
+        const k = 2.6 / (2.6 + z);
+        proj[i*3] = ox + x * R * k * breathe; proj[i*3+1] = oy + y2 * R * k * breathe; proj[i*3+2] = z;
+      }
+      ctx.lineWidth = .6;
+      for (const [a, b, ph] of edges) {
+        const za = proj[a*3+2], zb = proj[b*3+2], depth = 1 - ((za + zb) / 2 + 1) / 2;
+        const pulse = Math.max(0, Math.sin(time * 1.6 + ph * 40)) ** 12;
+        const al = .05 + depth * .16 + pulse * .6 * depth;
+        ctx.strokeStyle = pulse > .3 ? `rgba(240,171,252,${al})` : `rgba(196,181,253,${al})`;
+        ctx.beginPath(); ctx.moveTo(proj[a*3], proj[a*3+1]); ctx.lineTo(proj[b*3], proj[b*3+1]); ctx.stroke();
+      }
+      for (let i = 0; i < N; i++) {
+        const z = proj[i*3+2], depth = 1 - (z + 1) / 2;
+        const tw = .6 + .4 * Math.sin(time * 2 + pts[i].s * 20);
+        ctx.fillStyle = pts[i].s > .93 ? `rgba(125,211,252,${.3 + depth * .7 * tw})` : `rgba(226,218,255,${.12 + depth * .75 * tw})`;
+        const r = (.6 + depth * 1.3) * (pts[i].s > .97 ? 1.8 : 1);
+        ctx.beginPath(); ctx.arc(proj[i*3], proj[i*3+1], r, 0, 6.283); ctx.fill();
+      }
+    }
+    if (!still) requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+  requestAnimationFrame(() => cv.classList.add("on"));
+})();
+
+
+/* ===== VSL va otzivlar: fayllar tayyor bo'lganda shu yerga qo'yiladi ===== */
+const VSL = { youtube: "0iRC-7m2rtU", poster: "v/vsl.jpg" };            // masalan: src:"vsl.mp4" yoki youtube:"VIDEO_ID"
+const OTZIV = [                                  // har biri: {name, role, src, poster}
+  {name:"Bitiruvchilar fikri", role:"Kadr Akademiya o'quvchilari", src:"v/otziv1.mp4", poster:"v/otziv1.jpg"},
+  {name:"O'quvchi fikri", role:"Kadr Akademiya bitiruvchisi", src:"v/otziv2.mp4", poster:"v/otziv2.jpg"},
+];
+const LAVHA = [7,8,9,1,2,3,4,5,6];                     // v/lavhaN.mp4 (to'liq) + v/lavhaNp.mp4 (ovozsiz qisqa)
+(() => {
+  const PL = '<span class="pl"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5.5v13l11-6.5z"/></svg></span>';
+  const v = document.getElementById("vsl");
+  if (VSL.poster) v.insertAdjacentHTML("afterbegin", `<img src="${VSL.poster}" alt="">`);
+  document.getElementById("vslPlay").addEventListener("click", () => {
+    if (VSL.youtube) v.insertAdjacentHTML("beforeend", `<iframe src="https://www.youtube.com/embed/${VSL.youtube}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`);
+    else if (VSL.src) v.insertAdjacentHTML("beforeend", `<video src="${VSL.src}" controls autoplay playsinline></video>`);
+    else { document.querySelector(".vsl-cap b").textContent = "Video tez orada"; return; }
+    v.classList.add("playing");
+  });
+  const box = document.getElementById("otz");
+  OTZIV.forEach((o, i) => {
+    const el = document.createElement("div");
+    el.className = "ot rv" + (i ? " d" + i : "");
+    el.innerHTML = (o.poster ? `<img src="${o.poster}" alt="">` : "") + PL + `<div class="who2"><b>${o.name}</b><span>${o.role}</span></div>`;
+    el.addEventListener("click", () => {
+      if (!o.src || el.classList.contains("playing")) return;
+      document.querySelectorAll(".ot.playing video").forEach(x => x.pause());
+      el.insertAdjacentHTML("beforeend", `<video src="${o.src}" controls autoplay playsinline></video>`);
+      el.classList.add("playing");
+    });
+    box.appendChild(el);
+  });
+  const lav = document.getElementById("lav");
+  document.addEventListener("play", e => { const t = e.target; if (t.muted) return; document.querySelectorAll("video").forEach(x => { if (x !== t && !x.muted) x.pause(); }); }, true);
+  const vio = new IntersectionObserver(es => es.forEach(e => { const x = e.target; if (x.closest(".full")) return; e.isIntersecting ? x.play().catch(()=>{}) : x.pause(); }), {threshold: .2});
+  LAVHA.forEach((n, i) => {
+    const el = document.createElement("div");
+    el.className = "lv rv" + (i % 3 ? " d" + (i % 3) : "");
+    el.innerHTML = `<video src="v/lavha${n}p.mp4" poster="v/lavha${n}.jpg" muted loop playsinline preload="none"></video><span class="snd">▶ ovozli</span>`;
+    vio.observe(el.querySelector("video"));
+    el.addEventListener("click", () => {
+      if (el.classList.contains("full")) return;
+      document.querySelectorAll(".lv.full video, .ot.playing video").forEach(x => x.pause());
+      const v = el.querySelector("video");
+      v.src = `v/lavha${n}.mp4`; v.muted = false; v.loop = false; v.controls = true; v.play().catch(()=>{});
+      el.classList.add("full");
+    });
+    lav.appendChild(el);
+  });
+})();
+
+/* ===== paydo bo'lish + karta nuri ===== */
+(() => {
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold: .15});
+  document.querySelectorAll(".rv").forEach(el => io.observe(el));
+  document.querySelectorAll(".card").forEach(c => c.addEventListener("pointermove", e => {
+    const b = c.getBoundingClientRect();
+    c.style.setProperty("--mx", (e.clientX - b.left) + "px"); c.style.setProperty("--my", (e.clientY - b.top) + "px");
+  }));
+})();
+</script>
+
+<script type="module">
+const API = "https://kadr-media.onrender.com/api/public/lead";
+const AGENT_ID = "agent_9201m849n3hmfm9rpe01t5gbtej2";
+const $ = s => document.querySelector(s);
+let lead = {name:"", phone:""};
+
+// sticky CTA: hero'dan keyin chiqadi, formada yashirinadi
+const mcta = $("#mcta"), hero = $(".hero"), ariza = $("#ariza");
+let heroOut = false, formIn = false;
+const upd = () => mcta.classList.toggle("on", heroOut && !formIn);
+new IntersectionObserver(([e]) => { heroOut = !e.isIntersecting; upd(); }).observe(hero);
+new IntersectionObserver(([e]) => { formIn = e.isIntersecting; upd(); }).observe(ariza);
+
+// lidni CRM'ga yuborish (forma ham, modal ham shu orqali)
+document.querySelectorAll('[data-pick]').forEach(a=>a.addEventListener('click',()=>{const sel=document.querySelector('#f select[name=interest]');if(sel)sel.value=a.dataset.pick;}));
+async function sendLead({name, phone, interest = "", website = ""}) {
+  const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({name, phone, kind:"akademiya", interest, website})});
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.ok === false) throw new Error(j.error || ("HTTP " + r.status));
+  lead = {name, phone};
+  if (window.fbq) fbq("track", "Lead");
+}
+
+// boshlanishigacha qolgan kunlar
+(() => {
+  const d = Math.ceil((new Date("2026-12-01T09:00:00+05:00") - Date.now()) / 864e5), cd = $("#cd");
+  if (d > 0) { cd.textContent = d === 1 ? "Ertaga boshlanadi" : d + " kun qoldi"; cd.hidden = false; }
+})();
+
+$("#f").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, err = $("#err"), sb = $("#sb");
+  const name = f.name.value.trim(), phone = f.phone.value.trim();
+  const digits = phone.replace(/\D/g, "");
+  err.textContent = "";
+  if (name.length < 2) { err.textContent = "Ismingizni yozing."; f.name.focus(); return; }
+  if (digits.length < 9) { err.textContent = "Telefon raqamni to'liq yozing."; f.phone.focus(); return; }
+  sb.disabled = true; sb.textContent = "Yuborilmoqda…";
+  try {
+    await sendLead({name, phone, interest:f.interest.value, website:f.website.value});
+    $("#tTitle").textContent = "Rahmat, " + name.split(" ")[0] + "!";
+    $("#formBox").style.display = "none";
+    $("#thanks").classList.add("on");
+    $("#thanks").scrollIntoView({behavior:"smooth", block:"center"});
+  } catch (x) {
+    err.textContent = "Yuborilmadi. Internetni tekshirib, qayta urinib ko'ring.";
+    sb.disabled = false; sb.textContent = "Ariza yuborish";
+  }
+});
+
+// Madina — ElevenLabs ovozli agent (sahifada bir nechta joyda ishlatiladi)
+const TG_BOT = "kadrakademiya_bot"; // TODO: BotFather'da yaratilgan bot username
+let conv = null, liveBox = null;
+const setSt = (box, t, cls) => { box.querySelector(".st").textContent = t; box.classList.remove("talk","listen"); if (cls) box.classList.add(cls); };
+async function startMadina(box) {
+  if (conv) return;
+  const btn = box.querySelector(".mS");
+  btn.disabled = true; setSt(box, "Ulanmoqda…");
+  try {
+    await navigator.mediaDevices.getUserMedia({audio:true});
+    const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.33.0/+esm");
+    liveBox = box;
+    conv = await Conversation.startSession({
+      agentId: AGENT_ID,
+      dynamicVariables: {lead_name: lead.name, lead_phone: lead.phone, call_type: "inbound"},
+      onConnect: () => { box.classList.add("live"); setSt(box, "Ulandi", "listen"); },
+      onDisconnect: () => { conv = null; liveBox = null; box.classList.remove("live","talk","listen"); btn.disabled = false; setSt(box, "Suhbat tugadi. Yana gaplashish uchun tugmani bosing."); },
+      onModeChange: ({mode}) => mode === "speaking" ? setSt(box, "Madina gapiryapti…", "talk") : setSt(box, "Sizni eshityapti, gapiring", "listen"),
+      onError: m => { console.error(m); setSt(box, "Ulanishda xato. Qayta urinib ko'ring."); },
+    });
+  } catch (x) {
+    console.error(x); conv = null; liveBox = null;
+    btn.disabled = false;
+    setSt(box, x && x.name === "NotAllowedError" ? "Mikrofonga ruxsat berilmadi. Brauzer sozlamasidan ruxsat bering." : "Ulanib bo'lmadi. Qayta urinib ko'ring.");
+  }
+}
+document.querySelectorAll(".madina").forEach(box => {
+  box.querySelector(".mS").addEventListener("click", () => startMadina(box));
+  box.querySelector(".mE").addEventListener("click", async () => { if (conv) await conv.endSession(); });
+});
+
+// Bog'lanish tugmasi + modal
+const buzz = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (_) {} };
+const cmod = $("#cmod"), cPick = $("#cPick"), cCall = $("#cCall"), oTg = $("#oTg");
+oTg.href = "https://t.me/" + TG_BOT + "?start=site";
+const cForm = $("#cForm");
+const showPick = () => { cPick.hidden = false; cCall.hidden = true; cForm.hidden = true; };
+const openC = () => { buzz([35, 45, 35]); showPick(); cmod.classList.add("on"); document.body.style.overflow = "hidden"; };
+const closeC = async () => { if (conv && liveBox === $("#mBox2")) await conv.endSession(); cmod.classList.remove("on"); document.body.style.overflow = ""; };
+$("#fab").addEventListener("click", openC);
+document.querySelectorAll("[data-contact]").forEach(el => el.addEventListener("click", e => { e.preventDefault(); openC(); }));
+$("#cx").addEventListener("click", closeC);
+cmod.addEventListener("click", e => { if (e.target === cmod) closeC(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && cmod.classList.contains("on")) closeC(); });
+$("#oCall").addEventListener("click", () => { buzz(25); cPick.hidden = true; cCall.hidden = false; startMadina($("#mBox2")); });
+oTg.addEventListener("click", () => { buzz(25); if (window.fbq) fbq("track", "Contact"); });
+$("#oForm").addEventListener("click", () => {
+  buzz(25); cPick.hidden = true; cForm.hidden = false;
+  const done = !$("#cDone").hidden;
+  if (!done) { const cf = $("#cf"); if (lead.name && !cf.name.value) { cf.name.value = lead.name; cf.phone.value = lead.phone; } setTimeout(() => (cf.name.value ? cf.phone : cf.name).focus(), 60); }
+});
+document.querySelectorAll("[data-back]").forEach(b => b.addEventListener("click", async () => { if (conv && liveBox === $("#mBox2")) await conv.endSession(); showPick(); }));
+$("#cf").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, err = $("#cerr"), sb = $("#csb");
+  const name = f.name.value.trim(), phone = f.phone.value.trim();
+  err.textContent = "";
+  if (name.length < 2) { err.textContent = "Ismingizni yozing."; f.name.focus(); return; }
+  if (phone.replace(/\D/g, "").length < 9) { err.textContent = "Telefon raqamni to'liq yozing."; f.phone.focus(); return; }
+  sb.disabled = true; sb.textContent = "Yuborilmoqda…";
+  try {
+    await sendLead({name, phone, interest:"Qo'ng'iroq so'radi (sayt modal)", website:f.website.value});
+    buzz([20, 40, 20]);
+    $("#cdT").textContent = "Rahmat, " + name.split(" ")[0] + "!";
+    $("#cfBox").hidden = true; $("#cDone").hidden = false;
+  } catch (x) {
+    err.textContent = "Yuborilmadi. Internetni tekshirib, qayta urinib ko'ring.";
+    sb.disabled = false; sb.textContent = "Qo'ng'iroq kutaman";
+  }
+});
+// e'tibor uchun: tugma vaqti-vaqti bilan "qimirlaganda" telefon ham ozgina titraydi (faqat foydalanuvchi sahifaga tekkandan keyin)
+let touched = false; addEventListener("pointerdown", () => touched = true, {once:true});
+let nb = 0; const bt = setInterval(() => { if (touched && !cmod.classList.contains("on") && document.visibilityState === "visible") { buzz(18); if (++nb >= 3) clearInterval(bt); } }, 13500); // ko'pi bilan 3 marta
+</script>
+</body>
+</html>
